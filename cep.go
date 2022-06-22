@@ -1,11 +1,12 @@
-package cep
+package brasilapi
 
 // CEP models the data of a zip code
 type CEP struct {
-	Cep     *string
-	State   *string
-	City    *string
-	Service *string
+	Cep      *string
+	State    *string
+	City     *string
+	Service  *string
+	Location *Location
 }
 
 // Location models the data of a location
