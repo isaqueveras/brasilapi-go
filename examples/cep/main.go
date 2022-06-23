@@ -12,5 +12,7 @@ func main() {
 		fmt.Println(err)
 	}
 
-	fmt.Println(zp)
+	if zp != nil {
+		fmt.Println(*zp.City)
+	}
 }

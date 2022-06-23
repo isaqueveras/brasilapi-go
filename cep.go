@@ -2,23 +2,23 @@ package brasilapi
 
 // ZipCode models the data of a zip code
 type ZipCode struct {
-	Cep      *string
-	State    *string
-	City     *string
-	Service  *string
-	Location *Location
+	Cep      *string   `json:"cep"`
+	State    *string   `json:"state"`
+	City     *string   `json:"city"`
+	Service  *string   `json:"service"`
+	Location *Location `json:"location"`
 }
 
 // Location models the data of a location
 type Location struct {
-	Type        *string
-	Coordenates *Coordenates
+	Type        *string      `json:"type"`
+	Coordenates *Coordenates `json:"coordenates"`
 }
 
 // Coordenates models the data of a coordenates
 type Coordenates struct {
-	Longitude *float64
-	Latitude  *float32
+	Longitude *float32 `json:"longitude"`
+	Latitude  *float32 `json:"latitude"`
 }
 
 // ZipCodeErr models the data of a error
