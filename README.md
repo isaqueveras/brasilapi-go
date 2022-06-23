@@ -1,9 +1,7 @@
-# brasilapi-go
-Cliente em Golang para se comunicar com BrasilApi
+<h1 align='center'>brasilapi-go</h1>
+<p align='center'>Cliente em Golang para se comunicar com BrasilApi</p>
 
-## Cep (zipcode)
-Para buscar dados referente a um CEP basta utilizar a função `GetZipCode(zipcode)`
-
+## CEP (zipcode)
 ```go
 package main
 
@@ -14,23 +12,23 @@ import (
 )
 
 func main() {
-	zp, err := brasilapi.GetZipCode("63900-193")
+	zc, err := brasilapi.GetZipCode("63900-193")
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Println(*zp.Cep)
-	fmt.Println(*zp.City)
-	fmt.Println(*zp.Service)
-	fmt.Println(*zp.State)
+	fmt.Println(*zc.Cep)
+	fmt.Println(*zc.City)
+	fmt.Println(*zc.Service)
+	fmt.Println(*zc.State)
 
-	if zp.Location != nil {
-		fmt.Println(*zp.Location.Type)
+	if zc.Location != nil {
+		fmt.Println(*zc.Location.Type)
 	}
 
-	if zp.Location != nil && zp.Location.Coordenates != nil {
-		fmt.Println(*zp.Location.Coordenates.Longitude)
-		fmt.Println(*zp.Location.Coordenates.Latitude)
+	if zc.Location != nil && zc.Location.Coordenates != nil {
+		fmt.Println(*zc.Location.Coordenates.Longitude)
+		fmt.Println(*zc.Location.Coordenates.Latitude)
 	}
 }
 ```
