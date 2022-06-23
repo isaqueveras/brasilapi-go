@@ -3,16 +3,14 @@ package main
 import (
 	"fmt"
 
-	"github.com/isaqueveras/brasilapi-go/cep"
+	"github.com/isaqueveras/brasilapi-go"
 )
 
 func main() {
-	var data = cep.CEP{
-		Cep:     nil,
-		State:   nil,
-		City:    nil,
-		Service: nil,
+	zp, err := brasilapi.GetZipCode("63610000")
+	if err != nil {
+		fmt.Println(err)
 	}
 
-	fmt.Println(data)
+	fmt.Println(zp)
 }

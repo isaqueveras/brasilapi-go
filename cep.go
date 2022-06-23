@@ -36,7 +36,7 @@ func (e *ZipCodeErr) Error() string {
 // GetZipCode return the data of a zip code
 func GetZipCode(zipcode string) (zc *ZipCode, err error) {
 	var (
-		client = newHttpClient("https://brasilapi.com.br/api/cep/")
+		client = newHttpClient("https://brasilapi.com.br/api/cep/v2/")
 		reqErr = new(ZipCodeErr)
 	)
 
