@@ -22,8 +22,8 @@ type Location struct {
 
 // Coordenates models the data of a coordenates
 type Coordenates struct {
-	Longitude *float32 `json:"longitude"`
-	Latitude  *float32 `json:"latitude"`
+	Longitude *string `json:"longitude"`
+	Latitude  *string `json:"latitude"`
 }
 
 // ZipCodeErr models the data of a error
