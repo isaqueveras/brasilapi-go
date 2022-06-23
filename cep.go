@@ -1,5 +1,10 @@
 package brasilapi
 
+const (
+	// urlBrasilAPI base url from BrasilApi
+	urlBrasilAPI = "https://brasilapi.com.br/api/cep/v2/"
+)
+
 // ZipCode models the data of a zip code
 type ZipCode struct {
 	Cep      *string   `json:"cep"`
@@ -35,8 +40,10 @@ func (e *ZipCodeErr) Error() string {
 
 // GetZipCode return the data of a zip code
 func GetZipCode(zipcode string) (zc *ZipCode, err error) {
+	zc = new(ZipCode)
+
 	var (
-		client = newHttpClient("https://brasilapi.com.br/api/cep/v2/")
+		client = newHttpClient(urlBrasilAPI)
 		reqErr = new(ZipCodeErr)
 	)
 
