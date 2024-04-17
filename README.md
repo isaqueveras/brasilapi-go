@@ -1,34 +1,43 @@
 <h1 align='center'>brasilapi-go</h1>
 <p align='center'>Cliente em Golang para se comunicar com BrasilApi</p>
 
+---
+
 ## CEP (zipcode)
+
 ```go
 package main
 
 import (
-	"fmt"
+  "context"
+  "encoding/json"
+  "fmt"
 
-	"github.com/isaqueveras/brasilapi-go"
+  "github.com/isaqueveras/brasilapi-go"
+  "github.com/isaqueveras/brasilapi-go/cep"
+  "github.com/isaqueveras/juazeiro"
 )
 
 func main() {
-	zc, err := brasilapi.GetZipCode("63900-193")
-	if err != nil {
-		fmt.Println(err)
-	}
+  conn, err := juazeiro.NewClient(brasilapi.ServerClient)
+  if err != nil {
+    panic(err)
+  }
 
-	fmt.Println(*zc.Cep)
-	fmt.Println(*zc.City)
-	fmt.Println(*zc.Service)
-	fmt.Println(*zc.State)
+  client := cep.NewCepClient(conn)
 
-	if zc.Location != nil {
-		fmt.Println(*zc.Location.Type)
-	}
+  var zipcode *cep.Response
+  if zipcode, err = client.GetZipCode(context.Background(), &cep.Identifier{
+    Cep: pointer("63900-193"),
+  }); err != nil {
+    panic(err)
+  }
 
-	if zc.Location != nil && zc.Location.Coordenates != nil {
-		fmt.Println(*zc.Location.Coordenates.Longitude)
-		fmt.Println(*zc.Location.Coordenates.Latitude)
-	}
+  str, _ := json.Marshal(zipcode)
+  fmt.Println(string(str))
+}
+
+func pointer[t any](value t) *t {
+  return &value
 }
 ```
