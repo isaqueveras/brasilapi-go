@@ -1,0 +1,22 @@
+pkg fipe
+
+type vehicle_type {
+  caminhoes
+  carros
+  motos
+}
+
+node identifier {
+  type: vehicle_type
+}
+
+node response {
+  nome: string
+  valor: string
+}
+
+impl obtain_vehicle_brand(identifier) response {
+  method: "GET"
+  uri: "/fipe/marcas/v1/{type}"
+  status: "200"
+}
