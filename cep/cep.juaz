@@ -4,7 +4,7 @@ node identifier {
   cep: string
 }
 
-node zip_code {
+node response {
   cep: string
   state: string
   city: string
@@ -22,7 +22,7 @@ node coordenates {
   latitude: string
 }
 
-impl get_zip_code(identifier) zip_code {
+impl get_zip_code(identifier) response {
   method: "GET"
   uri: "/cep/v2/{cep}"
   status: "200"

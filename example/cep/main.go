@@ -18,7 +18,7 @@ func main() {
 
 	client := cep.NewCepClient(conn)
 
-	var zipcode *cep.ZipCode
+	var zipcode *cep.Response
 	if zipcode, err = client.GetZipCode(context.Background(), &cep.Identifier{
 		Cep: pointer("63900-193"),
 	}); err != nil {

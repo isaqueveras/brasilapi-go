@@ -17,8 +17,8 @@ type Identifier struct {
 	Cep *string `json:"cep,omitempty"`
 }
 
-// ZipCode data model for the zip_code structure
-type ZipCode struct {
+// Response data model for the response structure
+type Response struct {
 	Cep *string `json:"cep,omitempty"`
 	State *string `json:"state,omitempty"`
 	City *string `json:"city,omitempty"`
@@ -40,7 +40,7 @@ type Coordenates struct {
 
 // ICepClient defines the interface of the provided methods
 type ICepClient interface {
-	GetZipCode(context.Context, *Identifier) (*ZipCode, error)
+	GetZipCode(context.Context, *Identifier) (*Response, error)
 }
 
 type CepClient struct {
@@ -52,8 +52,8 @@ func NewCepClient(cc juazeiro.ClientConnInterface) ICepClient {
 }
 
 // GetZipCode implements the GetZipCode method of the interface
-func (c *CepClient) GetZipCode(ctx context.Context, in *Identifier) (*ZipCode, error) {
-	out := new(ZipCode)
+func (c *CepClient) GetZipCode(ctx context.Context, in *Identifier) (*Response, error) {
+	out := new(Response)
 	uri := fmt.Sprintf("/cep/v2/%v", *in.Cep)
 	err := c.cc.Invoke(ctx, http.MethodGet, uri, http.StatusOK, in, out)
 	return out, err
