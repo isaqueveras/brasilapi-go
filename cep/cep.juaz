@@ -1,0 +1,29 @@
+pkg cep
+
+node identifier {
+  cep: string
+}
+
+node zip_code {
+  cep: string
+  state: string
+  city: string
+  service: string
+  location: location
+}
+
+node location {
+  type: string
+  coordenates: coordenates
+}
+
+node coordenates {
+  longitude: string
+  latitude: string
+}
+
+impl get_zip_code(identifier) zip_code {
+  method: "GET"
+  uri: "/cep/v2/{cep}"
+  status: "200"
+}
