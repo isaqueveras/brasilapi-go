@@ -1,6 +1,6 @@
 package brasilapi
 
 const (
-	// ServerClient defines the server URL
-	ServerClient = "https://brasilapi.com.br/api"
+	// ServerURL defines the server URL
+	ServerURL = "https://brasilapi.com.br/api"
 )

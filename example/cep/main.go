@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	conn, err := juazeiro.NewClient(brasilapi.ServerClient)
+	conn, err := juazeiro.NewClient(brasilapi.ServerURL)
 	if err != nil {
 		panic(err)
 	}
