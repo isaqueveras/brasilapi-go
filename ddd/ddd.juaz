@@ -1,0 +1,16 @@
+pkg ddd
+
+node identifier {
+  ddd: i64
+}
+
+node response {
+  state: string
+  cities: repeated string
+}
+
+impl obtain(identifier) response {
+  method: "GET"
+  uri: "/ddd/v1/{ddd}"
+  status: "200"
+}
