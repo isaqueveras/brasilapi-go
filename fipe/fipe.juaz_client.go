@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"net/url"
 
 	"github.com/isaqueveras/juazeiro"
 )
@@ -26,20 +27,56 @@ func (t VehicleType) String() string {
 	return string(t)
 }
 
-// Identifier data model for the identifier structure
-type Identifier struct {
+// IdentifierBrand data model for the identifier_brand structure
+type IdentifierBrand struct {
 	Type *VehicleType `json:"type,omitempty"`
 }
 
-// Response data model for the response structure
-type Response struct {
+// ResponseBrand data model for the response_brand structure
+type ResponseBrand struct {
 	Nome  *string `json:"nome,omitempty"`
 	Valor *string `json:"valor,omitempty"`
 }
 
+// IdentifierPrice data model for the identifier_price structure
+type IdentifierPrice struct {
+	FipeCode   *string `json:"fipe_code,omitempty"`
+	parameters *IdentifierPriceParams
+}
+
+// NewParams ...
+func (i *IdentifierPrice) NewParams() {
+	i.parameters = &IdentifierPriceParams{}
+}
+
+// WithParamTabelaReferencia ...
+func (i *IdentifierPrice) WithParamTabelaReferencia(tabelaReferencia *int64) {
+	i.parameters.TabelaReferencia = tabelaReferencia
+}
+
+// IdentifierPriceParams data model for the identifier_price_params structure
+type IdentifierPriceParams struct {
+	TabelaReferencia *int64 `json:"tabela_referencia,omitempty"`
+}
+
+// ResponsePrice data model for the response_price structure
+type ResponsePrice struct {
+	Valor            *string `json:"valor,omitempty"`
+	Marca            *string `json:"marca,omitempty"`
+	Modelo           *string `json:"modelo,omitempty"`
+	AnoModelo        *int64  `json:"anoModelo,omitempty"`
+	TipoVeiculo      *int    `json:"tipoVeiculo,omitempty"`
+	Combustivel      *string `json:"combustivel,omitempty"`
+	CodigoFipe       *string `json:"codigoFipe,omitempty"`
+	DataConsulta     *string `json:"dataConsulta,omitempty"`
+	MesReferencia    *string `json:"mesReferencia,omitempty"`
+	SiglaCombustivel *string `json:"siglaCombustivel,omitempty"`
+}
+
 // IFipeClient defines the interface of the provided methods
 type IFipeClient interface {
-	ObtainVehicleBrand(context.Context, *Identifier) (*[]Response, error)
+	ObtainVehicleBrand(context.Context, *IdentifierBrand) (*[]ResponseBrand, error)
+	ObtainVehiclePrice(context.Context, *IdentifierPrice) (*[]ResponsePrice, error)
 }
 
 type FipeClient struct {
@@ -51,9 +88,29 @@ func NewFipeClient(cc juazeiro.ClientConnInterface) IFipeClient {
 }
 
 // ObtainVehicleBrand implements the ObtainVehicleBrand method of the interface
-func (c *FipeClient) ObtainVehicleBrand(ctx context.Context, in *Identifier) (*[]Response, error) {
-	out := new([]Response)
+func (c *FipeClient) ObtainVehicleBrand(ctx context.Context, in *IdentifierBrand) (*[]ResponseBrand, error) {
+	out := new([]ResponseBrand)
 	uri := fmt.Sprintf("/fipe/marcas/v1/%v", *in.Type)
 	err := c.cc.Invoke(ctx, http.MethodGet, uri, http.StatusOK, in, out)
 	return out, err
+}
+
+// ObtainVehiclePrice implements the ObtainVehiclePrice method of the interface
+func (c *FipeClient) ObtainVehiclePrice(ctx context.Context, in *IdentifierPrice) (*[]ResponsePrice, error) {
+	out := new([]ResponsePrice)
+	uri := fmt.Sprintf("/fipe/preco/v1/%v", *in.FipeCode)
+	if in.parameters != nil {
+		uri += _build_identifier_price_params_parameters(in.parameters)
+		in.parameters = nil
+	}
+	err := c.cc.Invoke(ctx, http.MethodGet, uri, http.StatusOK, in, out)
+	return out, err
+}
+
+func _build_identifier_price_params_parameters(in *IdentifierPriceParams) string {
+	val := &url.Values{}
+	if in.TabelaReferencia != nil {
+		val.Add("tabela_referencia", fmt.Sprintf("%v", *in.TabelaReferencia))
+	}
+	return "?" + val.Encode()
 }

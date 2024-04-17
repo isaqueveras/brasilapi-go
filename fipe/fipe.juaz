@@ -6,17 +6,45 @@ type vehicle_type {
   motos
 }
 
-node identifier {
+node identifier_brand {
   type: vehicle_type
 }
 
-node response {
+node response_brand {
   nome: string
   valor: string
 }
 
-impl obtain_vehicle_brand(identifier) response {
+impl obtain_vehicle_brand(identifier_brand) response_brand {
   method: "GET"
   uri: "/fipe/marcas/v1/{type}"
+  status: "200"
+}
+
+node identifier_price {
+  fipe_code: string
+  parameters: identifier_price_params
+}
+
+node identifier_price_params {
+  tabela_referencia: i64
+}
+
+node response_price {
+  valor: string
+  marca: string
+  modelo: string
+  ano_modelo: i64
+  tipo_veiculo: int
+  combustivel: string
+  codigo_fipe: string
+  data_consulta: string
+  mes_referencia: string
+  sigla_combustivel: string
+}
+
+impl obtain_vehicle_price(identifier_price) response_price {
+  method: "GET"
+  uri: "/fipe/preco/v1/{fipe_code}"
   status: "200"
 }
