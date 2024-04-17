@@ -48,3 +48,16 @@ impl obtain_vehicle_price(identifier_price) response_price {
   uri: "/fipe/preco/v1/{fipe_code}"
   status: "200"
 }
+
+node void {}
+
+node response_reference_table {
+  codigo: i64
+  mes: string
+}
+
+impl obtain_reference_table(void) response_reference_table {
+  method: "GET"
+  uri: "/fipe/tabelas/v1"
+  status: "200"
+}

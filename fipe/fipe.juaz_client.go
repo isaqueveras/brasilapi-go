@@ -73,10 +73,20 @@ type ResponsePrice struct {
 	SiglaCombustivel *string `json:"siglaCombustivel,omitempty"`
 }
 
+// Void data model for the void structure
+type Void struct {}
+
+// ResponseReferenceTable data model for the response_reference_table structure
+type ResponseReferenceTable struct {
+	Codigo *int64  `json:"codigo,omitempty"`
+	Mes    *string `json:"mes,omitempty"`
+}
+
 // IFipeClient defines the interface of the provided methods
 type IFipeClient interface {
 	ObtainVehicleBrand(context.Context, *IdentifierBrand) (*[]ResponseBrand, error)
 	ObtainVehiclePrice(context.Context, *IdentifierPrice) (*[]ResponsePrice, error)
+	ObtainReferenceTable(context.Context, *Void) (*[]ResponseReferenceTable, error)
 }
 
 type FipeClient struct {
@@ -104,6 +114,13 @@ func (c *FipeClient) ObtainVehiclePrice(ctx context.Context, in *IdentifierPrice
 		in.parameters = nil
 	}
 	err := c.cc.Invoke(ctx, http.MethodGet, uri, http.StatusOK, in, out)
+	return out, err
+}
+
+// ObtainReferenceTable implements the ObtainReferenceTable method of the interface
+func (c *FipeClient) ObtainReferenceTable(ctx context.Context, in *Void) (*[]ResponseReferenceTable, error) {
+	out := new([]ResponseReferenceTable)
+	err := c.cc.Invoke(ctx, http.MethodGet, "/fipe/tabelas/v1", http.StatusOK, in, out)
 	return out, err
 }
 

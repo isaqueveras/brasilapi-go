@@ -44,6 +44,16 @@ func main() {
 
 	str, _ = json.Marshal(prices)
 	fmt.Println("prices", string(str))
+
+	// ============ REFERENCE TABLE
+
+	var table *[]fipe.ResponseReferenceTable
+	if table, err = client.ObtainReferenceTable(ctx, nil); err != nil {
+		panic(err)
+	}
+
+	str, _ = json.Marshal(table)
+	fmt.Println("table", string(str))
 }
 
 func pointer[t any](value t) *t {
